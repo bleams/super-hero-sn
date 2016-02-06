@@ -2,7 +2,7 @@
   "name": "super-hero-sn",
   "version": "1.0.0",
   "description": "social networking for daily heroes",
-  "main": "index.js",
+  "main": "server.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
