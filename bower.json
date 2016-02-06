@@ -1,0 +1,29 @@
+{
+  "name": "super-hero-sn",
+  "description": "social networking for daily heroes",
+  "main": "index.js",
+  "authors": [
+    "geo bleam"
+  ],
+  "license": "ISC",
+  "keywords": [
+    "mean",
+    "social",
+    "network"
+  ],
+  "moduleType": [],
+  "homepage": "",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "jquery": "^2.2.0",
+    "angular": "^1.4.9",
+    "angular-resource": "^1.4.9",
+    "angular-route": "^1.4.9"
+  }
+}
