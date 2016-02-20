@@ -10,6 +10,7 @@ var path = require('path'),
     bodyParser = require('body-parser'),
     morgan = require('morgan'),
     port = process.env.PORT || 8080,
+    env = process.env.NODE_ENV = process.env.NODE_ENV || 'development',
     User = require('./app_server/models/user');
 
 
@@ -31,7 +32,14 @@ app.use(function(req, res, next){
 app.use(morgan('dev'));
 
 // connect to our database (local)
-mongoose.connect('mongodb://localhost:27017/mean_machine');
+//mongoose.connect('mongodb://localhost:27017/superapp');
+if(env === 'development') {
+    console.log('env', env);
+    mongoose.connect('mongodb://localhost/superapp');
+    app.locals.pretty = true;
+} else {
+    mongoose.connect('mongodb://geobleam:$obleam0@ds055905.mongolab.com:55905/superapp');
+}
 
 // ROUTES FOR OUR API
 // ==================================
