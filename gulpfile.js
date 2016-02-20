@@ -5,8 +5,8 @@
 var gulp = require('gulp'),
     sass = require('gulp-sass'),
     sourcemaps = require('gulp-sourcemaps'),
-    sassDir = 'public/scss/main.scss',
-    cssOutputDir = 'public/css/';
+    sassDir = 'public/assets/scss/main.scss',
+    cssOutputDir = 'public/assets/css/';
 
 gulp.task('css', function () {
     return gulp.src(sassDir)

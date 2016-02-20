@@ -18,11 +18,13 @@ app.use(logger('dev'));
 app.use(express.static(__dirname + '/public'));
 
 if(env === 'development') {
+    console.log('env', env);
     mongoose.connect('mongodb://localhost/superapp');
     app.locals.pretty = true;
 } else {
     mongoose.connect('mongodb://geobleam:$obleam0@ds055905.mongolab.com:55905/superapp');
 }
+
 
 var db = mongoose.connection;
 db.on('error', console.error.bind(console, 'connection error'));
@@ -44,6 +46,6 @@ var port = process.env.PORT || 3030;
 app.listen(port);
 
 console.log('Listening on port ' + port + '...');
-console.log('env', env);
+
 
 
