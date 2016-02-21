@@ -2,9 +2,10 @@ var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 var bcrypt = require('bcrypt-nodejs');
 
-// user schema
+// User schema according to our 'cahier de charges'
 var UserSchema = new Schema({
-    name : String,
+    firstName : String,
+    lastName : String,
     username : {
         type : String,
         required : true,
@@ -14,10 +15,19 @@ var UserSchema = new Schema({
         type: String,
         required : true,
         select: false
-    }
+    },
+    email : String,
+    gender : String,
+    age : Number,
+    location : String,
+    //photoUrl : String,
+    presentation : String,
+    friends : [String],
+    admin:  { type: Boolean, default: false }
 });
 
 // hash the password before the user is saved
+// we use the Schema 'pre' method to have operations happen before an object is saved
 UserSchema.pre('save', function (next) {
     var user = this;
 
@@ -42,6 +52,6 @@ UserSchema.methods.comparePassword = function (password) {
     return bcrypt.compareSync(password, user.password);
 };
 
-// return the model
+// return the model so we can access it in other files
 module.exports = mongoose.model('User', UserSchema);
 

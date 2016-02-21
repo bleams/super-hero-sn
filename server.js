@@ -3,15 +3,17 @@
 
 // CALL THE PACKAGES ---------------
 
-var express = require('express');
-var app = express();
-var path = require('path'),
+var express = require('express'),
+    app = express(),
+    path = require('path'),
     mongoose = require('mongoose'),
     bodyParser = require('body-parser'),
     morgan = require('morgan'),
     port = process.env.PORT || 8080,
     env = process.env.NODE_ENV = process.env.NODE_ENV || 'development',
-    User = require('./app_server/models/user');
+    User = require('./app_server/models/user'),
+    jwt = require('jsonwebtoken'),
+    superSecret = 'clarkKent';
 
 
 // APP CONFIGURATION ---------------
@@ -20,7 +22,8 @@ var path = require('path'),
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(bodyParser.json());
 
-// configure our app to handle CORS requests
+// configure our app to handle CORS requests (cross-origin resource sharing)
+
 app.use(function(req, res, next){
     res.setHeader('Access-Control-Allow-Origin', '*');
     res.setHeader('Access-Control-Allow-Methods', 'GET, POST');
@@ -50,7 +53,6 @@ var apiRouter = express.Router();
 // middleware to use for all requests
 apiRouter.use(function(req, res, next){
     console.log('Somebody just came to our app!');
-
     next();
 });
 
@@ -63,12 +65,20 @@ apiRouter.route('/users')
         // create a new instance of the User model
         var user = new User();
 
-        // set the user information (comes from the request)
-        user.name = req.body.name;
+        // set the user information (coming from the request)
+        user.firstName = req.body.firstName;
+        user.lastName= req.body.lastName;
         user.username = req.body.username;
         user.password = req.body.password;
+        user.gender = req.body.gender;
+        user.age = req.body.age;
+        user.location = req.body.location;
+        user.presentation = req.body.presentation;
+        user.friends = req.body.friends;
+        //user.admin = req.body.admin;
 
-        // save the user and checks for errors
+        // call the built-in save method on mongoose Models
+        // to save the user to the database and checks for errors
         user.save(function (err) {
             if (err) {
                 // duplicate entry
@@ -118,14 +128,26 @@ apiRouter.route('/users/:user_id')
             }
             // update the users info only it it's new
             // (= only if changes are done, otherwise the unchanged fields would be updated with blank!)
-            if(req.body.name) {
-                user.name = req.body.name;
+            if(req.body.firstName) {
+                user.firstName = req.body.firstName;
+            }
+            if(req.body.lastName) {
+                user.lastName = req.body.lastName;
             }
             if(req.body.username) {
                 user.username = req.body.username;
             }
             if(req.body.password) {
                 user.password = req.body.password;
+            }
+            if(req.body.age) {
+                user.age = req.body.age;
+            }
+            if(req.body.location) {
+                user.location = req.body.location;
+            }
+            if(req.body.presentation) {
+                user.presentation = req.body.presentation;
             }
 
             // save the user
@@ -148,7 +170,8 @@ apiRouter.route('/users/:user_id')
                 if(err){
                     return res.send(err);
                 }
-                res.json({ message : "Successfully deleted" });
+                res.json({ message : user + " Successfully deleted" });
+                console.log(user);
             });
     });
 
