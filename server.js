@@ -44,9 +44,17 @@ if(env === 'development') {
     mongoose.connect(config.database);
 }
 
+console.log(__dirname);
+
 // set static files location
 // used for requests on the frontend
 app.use(express.static(__dirname + '/public'));
+app.use('/app', express.static(__dirname + '/public/app'));
+app.use('/controllers', express.static(__dirname + '/app/controllers'));
+app.use('/assets', express.static(__dirname + '/public/assets'));
+app.use('/vendor', express.static(__dirname + '/public/assets/vendor'));
+app.use('/pages', express.static(__dirname + '/public/app/views/pages'));
+//app.use('/css', express.static(__dirname + '/css'));
 
 
 // ROUTES FOR OUR API ===============
